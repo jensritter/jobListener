@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.PropertySource;
@@ -22,19 +23,20 @@ import javax.annotation.Resource;
  * @author Jens Ritter on 30.04.15.
  */
 @Service
-public class SpringMain implements CommandLineRunner, MainInterface {
+public class JobListenerApplication implements CommandLineRunner, MainInterface {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SpringMain.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JobListenerApplication.class);
 
     /**
      * SpringBoot-Config
      */
     @SpringBootApplication
+    @EnableMBeanExport
     @ImportResource("classpath:/org/jens/test/context.xml")
     public static class Config {
         @Bean
-        public SpringMain springMain() {
-            return new SpringMain();
+        public JobListenerApplication jobListenerApplication() {
+            return new JobListenerApplication();
         }
     }
 

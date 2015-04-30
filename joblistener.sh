@@ -7,7 +7,15 @@ for loop in $JARDIR/*.jar
 do
 	echo $loop | grep "sources" || \
 	CP="$CP:$loop"
-done
+done 
+#	-XX:StartFlightRecording=duration=60s,filename=myrecording.jfr \
+#	-XX:+UseG1GC \
 
-java -cp $CP \
-	org.jens.test.SpringMain $@
+
+java \
+	-XX:MaxMetaspaceSize=100M \
+	-XX:+UnlockCommercialFeatures \
+	-XX:+FlightRecorder \
+	-XX:StartFlightRecording=maxsize=10485760 \
+	-cp $CP \
+	org.jens.test.JobListenerApplication $@
