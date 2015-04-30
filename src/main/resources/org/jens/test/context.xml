@@ -34,9 +34,11 @@
         </property>
     </bean>
 
-
+<!--
     <context:mbean-server id="mBeanServer"/>
     <context:mbean-export server="mBeanServer"/>
+
+-->
 
     <bean id="netHelper" class="org.jens.shorthand.io.NetHelper"/>
 

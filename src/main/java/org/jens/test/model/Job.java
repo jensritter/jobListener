@@ -1,5 +1,6 @@
 package org.jens.test.model;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -32,7 +33,10 @@ public class Job {
     public String getId() {
         StringBuilder out = new StringBuilder();
         ZonedDateTime zdt = ZonedDateTime.ofLocal(created, ZoneId.systemDefault(), null);
-        out.append(name).append("-").append(kredi).append(zdt.toInstant().getEpochSecond());
+        Instant instant = zdt.toInstant();
+        long seconds = instant.getEpochSecond();
+        int nano = instant.getNano();
+        out.append(name).append("-").append(kredi).append(seconds).append(".").append(nano);
 
         return out.toString();
     }
