@@ -6,13 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.EnableMBeanExport;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.PropertySource;
 import org.springframework.stereotype.Service;
@@ -28,25 +24,12 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface 
     private static final Logger LOG = LoggerFactory.getLogger(JobListenerApplication.class);
 
     /**
-     * SpringBoot-Config
-     */
-    @SpringBootApplication
-    @EnableMBeanExport
-    @ImportResource("classpath:/org/jens/test/context.xml")
-    public static class Config {
-        @Bean
-        public JobListenerApplication jobListenerApplication() {
-            return new JobListenerApplication();
-        }
-    }
-
-    /**
      * SpringBoot-Init
      *
      * @param args
      */
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(Config.class);
+        SpringApplication app = new SpringApplication(JobListenerConfig.class);
         app.setApplicationContextClass(AnnotationConfigApplicationContext.class);
         try(ConfigurableApplicationContext ctx = app.run(args)) {
             LOG.info("Bye.");
