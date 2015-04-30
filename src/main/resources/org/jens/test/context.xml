@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- Set Context-Search-Path ( separated with comma )-->
+    <context:component-scan base-package="org.jens.test.model, org.jens.test.services"/>
+
+    <context:annotation-config/>
+
+    <!--
+        Location of propertiy-Files  
+        ${config} can be utilitsed by starting the java-application with "-Dconfig=PathToPropertiesFile"
+
+        spring boot mag soetwas nicht mehr ...
+    http://docs.spring.io/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/Bean.html
+    siehe "BeanFactoryPostProcessor-returning @Bean methods"
+    -->
+
+    <bean id="rootPlaceholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:/org/jens/test/context.properties</value>
+
+                <!--
+                <value>file:archetypes.properties</value>
+                <value>${config}</value>
+                -->
+            </list>
+        </property>
+    </bean>
+
+
+    <context:mbean-server id="mBeanServer"/>
+    <context:mbean-export server="mBeanServer"/>
+
+    <bean id="netHelper" class="org.jens.shorthand.io.NetHelper"/>
+
+    <bean id="jettyConfig" class="org.jens.shorthand.web.EmbeddedJettyConfig">
+        <property name="port" value="#{netHelper.getUsablePort()}"/>
+        <property name="springConfig" value="classpath:/org/jens/test/mvc-context.xml"/>
+    </bean>
+
+
+    <bean id="threadPool" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler" name="DeadPool">
+        <property name="poolSize" value="1"/>
+        <property name="daemon" value="true"/>
+    </bean>
+
+    <task:scheduled-tasks scheduler="threadPool">
+        <task:scheduled ref="worker" method="trigger" fixed-rate="60000" initial-delay="60000"/>
+    </task:scheduled-tasks>
+
+
+</beans>
