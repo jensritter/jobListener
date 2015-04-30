@@ -26,8 +26,6 @@ public class SpringMain implements CommandLineRunner, MainInterface {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpringMain.class);
 
-
-
     /**
      * SpringBoot-Config
      */
@@ -42,12 +40,13 @@ public class SpringMain implements CommandLineRunner, MainInterface {
 
     /**
      * SpringBoot-Init
+     *
      * @param args
      */
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(Config.class);
         app.setApplicationContextClass(AnnotationConfigApplicationContext.class);
-        try (ConfigurableApplicationContext ctx = app.run(args)) {
+        try(ConfigurableApplicationContext ctx = app.run(args)) {
             LOG.info("Bye.");
         }
     }
@@ -63,10 +62,11 @@ public class SpringMain implements CommandLineRunner, MainInterface {
 
     /**
      * Main
+     *
      * @param args
      */
     @Override
-    public void run(String... args)  {
+    public void run(String... args) {
         PropertySource<?> sources = psPc.getAppliedPropertySources().get("environmentProperties");
         LOG.info("");
         LOG.info("SSH-Enabled  : {}", sources.getProperty("shell.ssh.enabled"));
@@ -102,14 +102,15 @@ public class SpringMain implements CommandLineRunner, MainInterface {
             LOG.info("Shutting down");
             jetty.stop();
         } catch(Exception e) {
-            LOG.error(e.getMessage(),e);
+            LOG.error(e.getMessage(), e);
         }
     }
 
-    private boolean keepRunning=true;
+    private boolean keepRunning = true;
+
     @Override
     public void setKeepRunning(boolean value) {
-        keepRunning=value;
+        keepRunning = value;
     }
 
 

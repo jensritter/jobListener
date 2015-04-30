@@ -21,9 +21,9 @@ import java.util.List;
  */
 @Component
 @ManagedResource(
-    objectName="org.jens.test:name=JobManagerBean",
-    description="JobManager"
-    )
+    objectName = "org.jens.test:name=JobManagerBean",
+    description = "JobManager"
+)
 public class JmxBean implements JobManagerAdminInterface<String> {
 
     private final Logger logger = LoggerFactory.getLogger(JmxBean.class);
@@ -34,8 +34,8 @@ public class JmxBean implements JobManagerAdminInterface<String> {
 
     @ManagedOperation(description = "Create a new Job")
     @ManagedOperationParameters({
-        @ManagedOperationParameter(name="username", description = "Name of User"),
-        @ManagedOperationParameter(name="kredi", description = "KrediNummer")
+        @ManagedOperationParameter(name = "username", description = "Name of User"),
+        @ManagedOperationParameter(name = "kredi", description = "KrediNummer")
     })
     @Override
     public String createJob(String username, int kredi) {
@@ -51,14 +51,14 @@ public class JmxBean implements JobManagerAdminInterface<String> {
     @ManagedOperationParameters(@ManagedOperationParameter(name = "jobid", description = "Unique jobid"))
     @Override
     public String dropJob(String id) {
-        Job job=jobManager.removeJobById(id);
-        if (job != null) {
+        Job job = jobManager.removeJobById(id);
+        if(job != null) {
             return job.getId();
         }
         return null;
     }
 
-    @ManagedOperation(description="List all jobs")
+    @ManagedOperation(description = "List all jobs")
     @Override
     public List<String> list() {
         List<String> result = new LinkedList<>();
@@ -68,14 +68,11 @@ public class JmxBean implements JobManagerAdminInterface<String> {
         return result;
     }
 
-    @ManagedAttribute(description="Jobs in Queue")
+    @ManagedAttribute(description = "Jobs in Queue")
     @Override
     public int getJobCount() {
         return jobManager.list().size();
     }
-
-
-
 
 
 }
