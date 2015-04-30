@@ -19,13 +19,13 @@ import java.util.List;
  * @author Jens Ritter on 29.04.15.
  */
 @RestController
-@Api(value="Rest-Methods", hidden = false)
+@Api(value = "Rest-Methods", hidden = false)
 public class WebAdmin implements JobManagerAdminInterface<Job> {
 
     private final Logger logger = LoggerFactory.getLogger(WebAdmin.class);
 
-    public static final String RESP_OK="OK";
-    public static final String RESP_ERR="ERROR";
+    public static final String RESP_OK = "OK";
+    public static final String RESP_ERR = "ERROR";
 
 
     @Resource
@@ -36,7 +36,7 @@ public class WebAdmin implements JobManagerAdminInterface<Job> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/start")
     @Override
-    public Job createJob(@RequestParam("user") String username, @RequestParam("kredi")int kredi) {
+    public Job createJob(@RequestParam("user") String username, @RequestParam("kredi") int kredi) {
         logger.info("adding {} with {}", username, kredi);
         Job job = new Job();
         job.setKredi(kredi);
@@ -50,7 +50,7 @@ public class WebAdmin implements JobManagerAdminInterface<Job> {
         return jobManager.removeJobById(id);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value="/list")
+    @RequestMapping(method = RequestMethod.GET, value = "/list")
     @Override
     public List<Job> list() {
         return jobManager.list();
@@ -62,7 +62,7 @@ public class WebAdmin implements JobManagerAdminInterface<Job> {
         return jobManager.list().size();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value="/jetty/shutdown")
+    @RequestMapping(method = RequestMethod.GET, value = "/jetty/shutdown")
     public String shutdownJetty() {
         main.setKeepRunning(false);
         return RESP_OK;

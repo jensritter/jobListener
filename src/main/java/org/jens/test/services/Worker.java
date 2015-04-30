@@ -22,7 +22,7 @@ public class Worker {
         logger.info("Trigger");
 
         Job job = null;
-        while ( ( job = jobManager.getWork()) != null ) {
+        while((job = jobManager.getWork()) != null) {
             logger.info("Handle {}", job);
         }
 

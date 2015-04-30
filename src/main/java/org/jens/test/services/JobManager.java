@@ -48,7 +48,7 @@ public class JobManager implements JobManagerInterface {
     @Override
     public Job getJobById(@Nonnull String id) {
         for(Job job : availableJobs) {
-            if (job.getId().equals(id)) {
+            if(job.getId().equals(id)) {
                 return job;
             }
         }
@@ -60,15 +60,15 @@ public class JobManager implements JobManagerInterface {
     public Job removeJobById(@Nonnull String id) {
         Iterator<Job> iter = availableJobs.iterator();
         Job removed = null;
-        while (iter.hasNext()) {
+        while(iter.hasNext()) {
             Job job = iter.next();
-            if (job.getId().equals(id)) {
+            if(job.getId().equals(id)) {
                 removed = job;
                 iter.remove();
                 break;
             }
         }
-        return  removed;
+        return removed;
     }
 
 }

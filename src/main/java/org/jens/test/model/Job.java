@@ -31,7 +31,7 @@ public class Job {
 
     public String getId() {
         StringBuilder out = new StringBuilder();
-        ZonedDateTime zdt = ZonedDateTime.ofLocal(created, ZoneId.systemDefault(),null);
+        ZonedDateTime zdt = ZonedDateTime.ofLocal(created, ZoneId.systemDefault(), null);
         out.append(name).append("-").append(kredi).append(zdt.toInstant().getEpochSecond());
 
         return out.toString();
@@ -41,7 +41,7 @@ public class Job {
         return started != null;
     }
 
-    public boolean isFinished()  {
+    public boolean isFinished() {
         return finished != null;
     }
 
