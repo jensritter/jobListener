@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration debug="false">
+<!--
 
-    <property name="APP_NAME" value="logfile"/>
+    ONLY USED FOR DEVELOPMENT !!
+-->
+<configuration debug="false">
 
     <!--  Langes Logfile @ $HOME -->
     <appender name="RootFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -10,22 +12,23 @@
         <!--  Location of Logfile  -->
         <!--  <file>${user.home}/${APP_NAME}.txt</file>  -->
         <!--  current path  -->
-        <file>${APP_NAME}.txt</file>
+        <file>devlog.txt</file>
 
         <append>true</append>
+
         <!--
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>debug</level>
         </filter>
-         -->
+        -->
 
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${APP_NAME}.%i.txt</fileNamePattern>
-            <maxIndex>5</maxIndex>
+            <fileNamePattern>target/logfile.%i.txt</fileNamePattern>
+            <maxIndex>10</maxIndex>
         </rollingPolicy>
 
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>200000</maxFileSize>
+            <maxFileSize>1MB</maxFileSize>
         </triggeringPolicy>
 
         <encoder>
@@ -35,14 +38,15 @@
 
     <!--  Verkürztze Darstellung. Nur Uhrzeit und LoggerNamen -->
     <appender name="RootConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
-        <!--
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>debug</level>
-        </filter>
-        -->
         <encoder>
             <pattern>%date{HH:mm:ss} [%thread] %-5level %logger{80}\(%line\)%marker %msg%n</pattern>
         </encoder>
+
+        <!--
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        -->
 
     </appender>
 
@@ -62,8 +66,7 @@
 
     <logger name="org.jens.shorthand" level="WARN"/>
 
-    <root>
-        <level value="INFO"/>
+    <root level="INFO">
         <appender-ref ref="RootFileAppender"/>
         <appender-ref ref="RootConsoleAppender"/>
     </root>

@@ -17,13 +17,12 @@ FOR %%F IN (%libdir%/*.jar) DO (
 )
 
 set java="%JAVA_HOME%\bin\java.exe"
-set config=%confdir%\joblistener.properties
+rem set config=%confdir%\joblistener.properties
 set logback=%confdir%\logback.xml
 set mainclass=org.jens.test.JobListenerApplication
 
 
 %java% -cp %cp% ^
-    -Dconfig=%config% ^
-    -Dlogback.configurationFile=%logback% ^
+    -Dlogging.config=etc/logback.xml ^
     %mainclass%
 exit /B %ERRORLEVEL%

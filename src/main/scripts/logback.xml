@@ -2,8 +2,7 @@
 
 <configuration debug="false">
 
-    <property name="APP_NAME" value="jobListener"/>
-
+    <!-- LOG_FILE kommt von spring -->
     <!-- LOG_PATH kommt von spring -->
 
     <!--  Langes Logfile @ $HOME -->
@@ -12,7 +11,7 @@
         <!--  Location of Logfile  -->
         <!--  <file>${user.home}/${APP_NAME}.txt</file>  -->
         <!--  current path  -->
-        <file>${LOG_PATH}/${APP_NAME}.txt</file>
+        <file>${LOG_PATH}/${LOG_FILE}</file>
 
         <append>true</append>
         <!--
@@ -22,7 +21,7 @@
          -->
 
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${APP_NAME}.%i.txt</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}.%i.txt</fileNamePattern>
             <maxIndex>5</maxIndex>
         </rollingPolicy>
 
@@ -64,8 +63,7 @@
 
     <logger name="org.jens.shorthand" level="WARN"/>
 
-    <root>
-        <level value="INFO"/>
+    <root level="INFO">
         <appender-ref ref="RootFileAppender"/>
         <appender-ref ref="RootConsoleAppender"/>
     </root>
