@@ -4,6 +4,7 @@ import org.jens.shorthand.web.EmbeddedJetty;
 import org.jens.shorthand.web.EmbeddedJettyConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
  * @author Jens Ritter on 30.04.15.
  */
 @Service
-public class JobListenerApplication implements CommandLineRunner, MainInterface {
+public class JobListenerApplication implements CommandLineRunner, MainInterface, DisposableBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(JobListenerApplication.class);
 
@@ -29,11 +30,11 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface 
      * @param args
      */
     public static void main(String[] args) {
+
         SpringApplication app = new SpringApplication(JobListenerConfig.class);
         app.setApplicationContextClass(AnnotationConfigApplicationContext.class);
-        try(ConfigurableApplicationContext ctx = app.run(args)) {
-            LOG.info("Bye.");
-        }
+        app.run(args);
+        LOG.info("Bye.");
     }
 
     @Resource
@@ -53,6 +54,7 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface 
     @Override
     public void run(String... args) {
         PropertySource<?> sources = psPc.getAppliedPropertySources().get("environmentProperties");
+        LOG.info("{}", sources.getProperty("spring.main.show-banner"));
         LOG.info("");
         LOG.info("SSH-Enabled  : {}", sources.getProperty("shell.ssh.enabled"));
         LOG.info("SSH-Port     : {}", sources.getProperty("shell.ssh.port"));
@@ -62,21 +64,6 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface 
         LOG.info("Admin-Rest-Interface : http://127.0.0.1:{}/swagger", cfg.getPort());
         LOG.info("");
 
-        // environmentProperties
-        /*
-        System.out.println("BeanDefinitions:");
-        List<String> lst = new ArrayList<>();
-        for(String name : ctx.getBeanDefinitionNames()) {
-            Class<?> bean = ctx.getBean(name).getClass();
-            lst.add(bean.getName() + " (" + name + ")");
-        }
-        Collections.sort(lst);
-        for(String it : lst) {
-            System.out.println(it);
-        }
-
-        System.out.println("");
-        */
         EmbeddedJetty jetty = new EmbeddedJetty(cfg);
         cfg.setParentContext(ctx);
         try {
@@ -98,5 +85,11 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface 
         keepRunning = value;
     }
 
-
+    /**
+     * Shutdown orderly
+     */
+    @Override
+    public void destroy()  {
+        setKeepRunning(false);
+    }
 }
