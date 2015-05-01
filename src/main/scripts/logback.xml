@@ -3,7 +3,8 @@
 <configuration debug="false">
 
     <property name="APP_NAME" value="jobListener"/>
-    <property name="LOG_DIR" value="logs" />
+
+    <!-- LOG_PATH kommt von spring -->
 
     <!--  Langes Logfile @ $HOME -->
     <appender name="RootFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -11,7 +12,7 @@
         <!--  Location of Logfile  -->
         <!--  <file>${user.home}/${APP_NAME}.txt</file>  -->
         <!--  current path  -->
-        <file>${LOG_DIR}/${APP_NAME}.txt</file>
+        <file>${LOG_PATH}/${APP_NAME}.txt</file>
 
         <append>true</append>
         <!--
