@@ -33,8 +33,9 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
 
         SpringApplication app = new SpringApplication(JobListenerConfig.class);
         app.setApplicationContextClass(AnnotationConfigApplicationContext.class);
-        app.run(args);
-        LOG.info("Bye.");
+        try(ConfigurableApplicationContext it = app.run(args)){
+            LOG.info("Bye.");
+        }
     }
 
     @Resource
@@ -64,12 +65,14 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
         LOG.info("Admin-Rest-Interface : http://127.0.0.1:{}/swagger", cfg.getPort());
         LOG.info("");
 
-        EmbeddedJetty jetty = new EmbeddedJetty(cfg);
-        cfg.setParentContext(ctx);
+
         try {
+            EmbeddedJetty jetty = new EmbeddedJetty(cfg);
+            cfg.setParentContext(ctx);
             jetty.start();
+            LOG.info("JobListener startup complete");
             while(keepRunning) {
-                Thread.sleep(1_000);
+                Thread.sleep(500);
             }
             LOG.info("Shutting down");
             jetty.stop();
@@ -78,10 +81,19 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
         }
     }
 
+    /*
+
+    @Override
+    void run(String... args) throws Exception {
+        log.info('Joining thread, you can press Ctrl+C to shutdown application')
+        Thread.currentThread().join()
+    }
+     */
     private boolean keepRunning = true;
 
     @Override
     public void setKeepRunning(boolean value) {
+        LOG.info("Signaling orderly shutdown");
         keepRunning = value;
     }
 
