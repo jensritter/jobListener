@@ -21,28 +21,6 @@
         <version.crash>1.3.1</version.crash>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <includeScope>runtime</includeScope>
-                            <outputDirectory>target/${project.name}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
 
         <dependency>
@@ -139,4 +117,85 @@
         -->
     </dependencies>
 
+    <profiles>
+
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <includeScope>runtime</includeScope>
+                                    <outputDirectory>target/${project.artifactId}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>manual</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <copy toDir="target/${project.artifactId}">
+                                            <fileset dir="src/main/scripts">
+                                                <include name="*.bat" />
+                                                <include name="*.cmd" />
+                                                <include name="*.sh" />
+                                                <include name="*.xml" />
+                                                <include name="*.properties" />
+                                            </fileset>
+                                            <fileset dir="target">
+                                                <include name="${project.build.finalName}.jar" />
+                                            </fileset>
+                                        </copy>
+
+                                        <!--
+                                        <sync todir="C:/daten/${project.artifactId}" verbose="true">
+                                            <fileset dir="target" casesensitive="yes">
+                                                <include name="*.jar"/>
+                                                <include name="*.exe"/>
+                                                <include name="*.bat"/>
+                                                <exclude name="*-sources.jar"/>
+                                                <include name="*.properties"/>
+                                            </fileset>
+                                        </sync>
+                                        -->
+                                        <sync todir="C:/temp/bin/libs" verbose="true">
+                                            <fileset dir="target/${project.artifactId}" casesensitive="yes">
+                                                <include name="*.jar"/>
+                                                <include name="*.exe"/>
+                                                <include name="*.bat"/>
+                                                <include name="*.cmd"/>
+                                                <include name="*.xml"/>
+                                                <include name="*.sh"/>
+                                                <exclude name="*-sources.jar"/>
+                                                <include name="*.properties"/>
+                                            </fileset>
+                                        </sync>
+
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
