@@ -18,13 +18,14 @@ FOR %%F IN (%libdir%/*.jar) DO (
 
 
 set java="%JAVA_HOME%\bin\java.exe"
-set config=%configdir%/joblistener.properties
+set config=%configdir%/joblistener.overwrite
 set logback=%configdir%/logback.xml
+
+rem -Dspring.config.name=joblistener ^
 
 %java% ^
 -cp %cp% ^
--Dspring.config.location=classpath:/application.properties,file:./%config%,file:./joblistener.properties ^
--Dspring.config.name=joblistener ^
+-Dspring.config.location=classpath:/application.properties,file:./%config% ^
 -Dlogging.config=%logback% ^
 %mainclass%
 	

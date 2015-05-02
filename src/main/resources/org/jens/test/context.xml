@@ -19,21 +19,18 @@
     http://docs.spring.io/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/Bean.html
     siehe "BeanFactoryPostProcessor-returning @Bean methods"
     -->
-
+<!--
     <bean id="rootPlaceholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreResourceNotFound" value="true"/>
         <property name="locations">
             <list>
                 <value>classpath:/org/jens/test/context.properties</value>
-
-                <!--
-                <value>file:archetypes.properties</value>
-                <value>${config}</value>
-                -->
+                <value>file:etc/joblistener.properties</value>
+                <value>file:joblistener.properties</value>
             </list>
         </property>
     </bean>
-
+-->
 
     <bean id="netHelper" class="org.jens.shorthand.io.NetHelper"/>
 

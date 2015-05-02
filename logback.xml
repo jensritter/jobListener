@@ -67,7 +67,9 @@
     <logger name="org.jens.shorthand" level="WARN"/>
 
     <root level="INFO">
+        <!--
         <appender-ref ref="RootFileAppender"/>
+        -->
         <appender-ref ref="RootConsoleAppender"/>
     </root>
 

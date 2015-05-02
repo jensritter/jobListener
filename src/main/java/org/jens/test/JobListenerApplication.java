@@ -5,13 +5,12 @@ import org.jens.shorthand.web.EmbeddedJettyConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.PropertySource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -45,8 +44,18 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
     @Resource
     ApplicationContext ctx;
 
-    @Resource
-    PropertySourcesPlaceholderConfigurer psPc;
+    @Value("${shell.ssh.enabled}")
+    String sshEnabled;
+
+    @Value("${shell.ssh.port}")
+    String sshPort;
+
+    @Value("${shell.auth.simple.user.name}")
+    String sshUser;
+
+
+
+
 
     /**
      * Main
@@ -55,15 +64,14 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
      */
     @Override
     public void run(String... args) {
-        PropertySource<?> sources = psPc.getAppliedPropertySources().get("environmentProperties");
-        LOG.info("{}", sources.getProperty("spring.main.show-banner"));
         LOG.info("");
-        LOG.info("SSH-Enabled  : {}", sources.getProperty("shell.ssh.enabled"));
-        LOG.info("SSH-Port     : {}", sources.getProperty("shell.ssh.port"));
-        LOG.info("SSH-Username : {}", sources.getProperty("shell.auth.simple.user.name"));
+        LOG.info("SSH-Enabled  : {}", sshEnabled);
+        LOG.info("SSH-Port     : {}", sshPort);
+        LOG.info("SSH-Username : {}", sshUser);
         LOG.info("");
 
         LOG.info("Admin-Rest-Interface : http://127.0.0.1:{}/swagger", cfg.getPort());
+        LOG.info("");
         LOG.info("");
 
 
@@ -106,3 +114,4 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
         setKeepRunning(false);
     }
 }
+
