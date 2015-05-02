@@ -33,6 +33,7 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
 
         SpringApplication app = new SpringApplication(JobListenerConfig.class);
         app.setApplicationContextClass(AnnotationConfigApplicationContext.class);
+        app.setAddCommandLineProperties(true);
         try(ConfigurableApplicationContext it = app.run(args)){
             LOG.info("Bye.");
         }

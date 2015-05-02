@@ -7,7 +7,7 @@ REM Settings
 set basedir=.
 set libdir=libs
 set configdir=etc
-
+set mainclass=org.jens.test.JobListenerApplication
 
 REM construct classpath of seperate jars
 set cp=""
@@ -16,13 +16,16 @@ FOR %%F IN (%libdir%/*.jar) DO (
   SET cp=!cp!;%libdir%/%%F%
 )
 
+
 set java="%JAVA_HOME%\bin\java.exe"
-rem set config=%confdir%\joblistener.properties
-set logback=%confdir%\logback.xml
-set mainclass=org.jens.test.JobListenerApplication
+set config=%configdir%/joblistener.properties
+set logback=%configdir%/logback.xml
 
-
-%java% -cp %cp% ^
-    -Dlogging.config=etc/logback.xml ^
-    %mainclass%
+%java% ^
+-cp %cp% ^
+-Dspring.config.location=classpath:/application.properties,file:./%config%,file:./joblistener.properties ^
+-Dspring.config.name=joblistener ^
+-Dlogging.config=%logback% ^
+%mainclass%
+	
 exit /B %ERRORLEVEL%

@@ -22,11 +22,18 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jens</groupId>
+            <artifactId>shorthand-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>org.jens</groupId>
             <artifactId>shorthand-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -125,6 +132,23 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>${version.plugin.jar}</version>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>libs/</classpathPrefix>
+                                    <mainClass>${mainclass}</mainClass>
+                                </manifest>
+                                <manifestEntries>
+                                    <Implementation-Version>${project.version}</Implementation-Version>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
                         <executions>
                             <execution>
@@ -134,6 +158,8 @@
                                     <goal>copy-dependencies</goal>
                                 </goals>
                                 <configuration>
+                                    <stripVersion>false</stripVersion>
+                                    <useBaseVersion>false</useBaseVersion>
                                     <includeScope>runtime</includeScope>
                                     <outputDirectory>target/${project.artifactId}</outputDirectory>
                                 </configuration>
@@ -154,14 +180,14 @@
                                     <tasks>
                                         <copy toDir="target/${project.artifactId}">
                                             <fileset dir="src/main/scripts">
-                                                <include name="*.bat" />
-                                                <include name="*.cmd" />
-                                                <include name="*.sh" />
-                                                <include name="*.xml" />
-                                                <include name="*.properties" />
+                                                <include name="*.bat"/>
+                                                <include name="*.cmd"/>
+                                                <include name="*.sh"/>
+                                                <include name="*.xml"/>
+                                                <include name="*.properties"/>
                                             </fileset>
                                             <fileset dir="target">
-                                                <include name="${project.build.finalName}.jar" />
+                                                <include name="${project.build.finalName}.jar"/>
                                             </fileset>
                                         </copy>
 
