@@ -17,26 +17,13 @@ import javax.annotation.Resource;
 @SpringBootApplication
 @EnableMBeanExport
 @ImportResource("classpath:/org/jens/test/context.xml")
-public class JobListenerConfig {
-
-    @Bean
-    public JobListenerApplication jobListenerApplication() {
-        return new JobListenerApplication();
-    }
-
-
-//
-//    <bean id="jettyConfig" class="org.jens.shorthand.web.EmbeddedJettyConfig">
-//    <property name="port" value="${joblistener.rest.port}"/>
-//    <property name="springConfig" value="classpath:/org/jens/test/mvc-context.xml"/>
-//    </bean>
+public class JobManagerConfig {
 
     @Resource
     ApplicationContext ctx;
 
-
     @Bean
-    public EmbeddedJettyConfig embeddedConfig(@Value("${joblistener.rest.port}")Integer port) {
+    public EmbeddedJettyConfig embeddedConfig(@Value("${jobmanager.rest.port}")Integer port) {
         EmbeddedJettyConfig cfg = new EmbeddedJettyConfig();
         cfg.setPort(port);
         cfg.setSpringConfig("classpath:/org/jens/test/mvc-context.xml");

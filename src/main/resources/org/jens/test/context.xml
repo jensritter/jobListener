@@ -8,31 +8,7 @@
 
     <!-- Set Context-Search-Path ( separated with comma )-->
     <context:component-scan base-package="org.jens.test.model, org.jens.test.services"/>
-
     <context:annotation-config/>
-
-    <!--
-        Location of propertiy-Files  
-        ${config} can be utilitsed by starting the java-application with "-Dconfig=PathToPropertiesFile"
-
-        spring boot mag soetwas nicht mehr ...
-    http://docs.spring.io/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/Bean.html
-    siehe "BeanFactoryPostProcessor-returning @Bean methods"
-    -->
-<!--
-    <bean id="rootPlaceholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="ignoreResourceNotFound" value="true"/>
-        <property name="locations">
-            <list>
-                <value>classpath:/org/jens/test/context.properties</value>
-                <value>file:etc/joblistener.properties</value>
-                <value>file:joblistener.properties</value>
-            </list>
-        </property>
-    </bean>
--->
-
-
 
     <bean id="threadPool" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler" name="DeadPool">
         <property name="poolSize" value="1"/>

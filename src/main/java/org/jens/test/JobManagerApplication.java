@@ -19,9 +19,9 @@ import javax.annotation.Resource;
  * @author Jens Ritter on 30.04.15.
  */
 @Service
-public class JobListenerApplication implements CommandLineRunner, MainInterface, DisposableBean {
+public class JobManagerApplication implements CommandLineRunner, MainInterface, DisposableBean {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JobListenerApplication.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JobManagerApplication.class);
 
     /**
      * SpringBoot-Init
@@ -30,7 +30,7 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
      */
     public static void main(String[] args) {
 
-        SpringApplication app = new SpringApplication(JobListenerConfig.class);
+        SpringApplication app = new SpringApplication(JobManagerConfig.class);
         app.setApplicationContextClass(AnnotationConfigApplicationContext.class);
         app.setAddCommandLineProperties(true);
         try(ConfigurableApplicationContext it = app.run(args)){

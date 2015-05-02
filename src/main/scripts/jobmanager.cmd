@@ -7,7 +7,7 @@ REM Settings
 set basedir=.
 set libdir=libs
 set configdir=etc
-set mainclass=org.jens.test.JobListenerApplication
+set mainclass=org.jens.test.JobManagerApplication
 
 REM construct classpath of seperate jars
 set cp=""
@@ -18,7 +18,7 @@ FOR %%F IN (%libdir%/*.jar) DO (
 
 
 set java="%JAVA_HOME%\bin\java.exe"
-set config=%configdir%/joblistener.properties
+set config=%configdir%/jobmanager.properties
 set logback=%configdir%/logback.xml
 
 %java% ^

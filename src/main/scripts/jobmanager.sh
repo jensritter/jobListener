@@ -1,5 +1,7 @@
 #!/bin/sh
 
+TODO !
+
 basedir=.
 libdir=libs/
 configdir=etc/
