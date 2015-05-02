@@ -32,12 +32,6 @@
     </bean>
 -->
 
-    <bean id="netHelper" class="org.jens.shorthand.io.NetHelper"/>
-
-    <bean id="jettyConfig" class="org.jens.shorthand.web.EmbeddedJettyConfig">
-        <property name="port" value="#{netHelper.getUsablePort()}"/>
-        <property name="springConfig" value="classpath:/org/jens/test/mvc-context.xml"/>
-    </bean>
 
 
     <bean id="threadPool" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler" name="DeadPool">

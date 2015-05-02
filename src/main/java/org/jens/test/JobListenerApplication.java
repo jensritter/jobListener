@@ -42,6 +42,9 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
     EmbeddedJettyConfig cfg;
 
     @Resource
+    EmbeddedJetty jetty;
+
+    @Resource
     ApplicationContext ctx;
 
     @Value("${shell.ssh.enabled}")
@@ -76,8 +79,8 @@ public class JobListenerApplication implements CommandLineRunner, MainInterface,
 
 
         try {
-            EmbeddedJetty jetty = new EmbeddedJetty(cfg);
-            cfg.setParentContext(ctx);
+            //EmbeddedJetty jetty = new EmbeddedJetty(cfg);
+            //cfg.setParentContext(ctx);
             jetty.start();
             LOG.info("JobListener startup complete");
             while(keepRunning) {
